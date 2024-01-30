@@ -1,7 +1,5 @@
 import {
-    GitHubBanner,
     Refine,
-    AuthProvider,
     Authenticated,
 } from "@refinedev/core";
 import {
@@ -12,8 +10,6 @@ import {
     RefineThemes,
 } from "@refinedev/antd";
 import {
-    GoogleOutlined,
-    GithubOutlined,
     DashboardOutlined,
 } from "@ant-design/icons";
 
@@ -31,138 +27,22 @@ import "@refinedev/antd/dist/reset.css";
 
 import { PostList, PostEdit, PostShow } from "../src/pages/posts";
 import { DashboardPage } from "../src/pages/dashboard";
+import AuthProviderConfig from "../src/provider/AuthProvider"
 
-const API_URL = "https://api.fake-rest.refine.dev";
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3005/";
 
-/**
- *  mock auth credentials to simulate authentication
- */
 const authCredentials = {
-    email: "demo@refine.dev",
-    password: "demodemo",
+    email: "hi@gillyhuga.com",
+    password: "AdminG!lly",
 };
 
 const App: React.FC = () => {
-    const authProvider: AuthProvider = {
-        login: async ({ providerName, email }) => {
-            if (providerName === "google") {
-                window.location.href =
-                    "https://accounts.google.com/o/oauth2/v2/auth";
-                return {
-                    success: true,
-                };
-            }
-
-            if (providerName === "github") {
-                window.location.href =
-                    "https://github.com/login/oauth/authorize";
-                return {
-                    success: true,
-                };
-            }
-
-            if (email === authCredentials.email) {
-                localStorage.setItem("email", email);
-                return {
-                    success: true,
-                    redirectTo: "/",
-                };
-            }
-
-            return {
-                success: false,
-                error: {
-                    message: "Login failed",
-                    name: "Invalid email or password",
-                },
-            };
-        },
-        register: async (params) => {
-            if (params.email === authCredentials.email && params.password) {
-                localStorage.setItem("email", params.email);
-                return {
-                    success: true,
-                    redirectTo: "/",
-                };
-            }
-            return {
-                success: false,
-                error: {
-                    message: "Register failed",
-                    name: "Invalid email or password",
-                },
-            };
-        },
-        updatePassword: async (params) => {
-            if (params.password === authCredentials.password) {
-                //we can update password here
-                return {
-                    success: true,
-                };
-            }
-            return {
-                success: false,
-                error: {
-                    message: "Update password failed",
-                    name: "Invalid password",
-                },
-            };
-        },
-        forgotPassword: async (params) => {
-            if (params.email === authCredentials.email) {
-                //we can send email with reset password link here
-                return {
-                    success: true,
-                };
-            }
-            return {
-                success: false,
-                error: {
-                    message: "Forgot password failed",
-                    name: "Invalid email",
-                },
-            };
-        },
-        logout: async () => {
-            localStorage.removeItem("email");
-            return {
-                success: true,
-                redirectTo: "/login",
-            };
-        },
-        onError: async (error) => {
-            console.error(error);
-            return { error };
-        },
-        check: async () =>
-            localStorage.getItem("email")
-                ? {
-                      authenticated: true,
-                  }
-                : {
-                      authenticated: false,
-                      error: {
-                          message: "Check failed",
-                          name: "Not authenticated",
-                      },
-                      logout: true,
-                      redirectTo: "/login",
-                  },
-        getPermissions: async () => ["admin"],
-        getIdentity: async () => ({
-            id: 1,
-            name: "Jane Doe",
-            avatar: "https://unsplash.com/photos/IWLOvomUmWU/download?force=true&w=640",
-        }),
-    };
-
     return (
         <BrowserRouter>
-            <GitHubBanner />
             <ConfigProvider theme={RefineThemes.Blue}>
                 <AntdApp>
                     <Refine
-                        authProvider={authProvider}
+                        authProvider={AuthProviderConfig}
                         dataProvider={dataProvider(API_URL)}
                         routerProvider={routerProvider}
                         resources={[
@@ -232,81 +112,16 @@ const App: React.FC = () => {
                                     element={
                                         <AuthPage
                                             type="login"
+                                            registerLink={false}
+                                            forgotPasswordLink={false}
+                                            rememberMe={false}
                                             formProps={{
                                                 initialValues: {
-                                                    ...authCredentials,
-                                                },
-                                            }}
-                                            providers={[
-                                                {
-                                                    name: "google",
-                                                    label: "Sign in with Google",
-                                                    icon: (
-                                                        <GoogleOutlined
-                                                            style={{
-                                                                fontSize: 24,
-                                                                lineHeight: 0,
-                                                            }}
-                                                        />
-                                                    ),
-                                                },
-                                                {
-                                                    name: "github",
-                                                    label: "Sign in with GitHub",
-                                                    icon: (
-                                                        <GithubOutlined
-                                                            style={{
-                                                                fontSize: 24,
-                                                                lineHeight: 0,
-                                                            }}
-                                                        />
-                                                    ),
-                                                },
-                                            ]}
+                                                  ...authCredentials,
+                                                }, 
+                                              }}
                                         />
                                     }
-                                />
-                                <Route
-                                    path="/register"
-                                    element={
-                                        <AuthPage
-                                            type="register"
-                                            providers={[
-                                                {
-                                                    name: "google",
-                                                    label: "Sign in with Google",
-                                                    icon: (
-                                                        <GoogleOutlined
-                                                            style={{
-                                                                fontSize: 24,
-                                                                lineHeight: 0,
-                                                            }}
-                                                        />
-                                                    ),
-                                                },
-                                                {
-                                                    name: "github",
-                                                    label: "Sign in with GitHub",
-                                                    icon: (
-                                                        <GithubOutlined
-                                                            style={{
-                                                                fontSize: 24,
-                                                                lineHeight: 0,
-                                                            }}
-                                                        />
-                                                    ),
-                                                },
-                                            ]}
-                                        />
-                                    }
-                                />
-                                <Route
-                                    path="/forgot-password"
-                                    element={<AuthPage type="forgotPassword" />}
-                                />
-                                <Route
-                                    path="/update-password"
-                                    element={<AuthPage type="updatePassword" />}
                                 />
                             </Route>
 
