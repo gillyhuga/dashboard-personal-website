@@ -12,8 +12,7 @@ import {
 import {
     DashboardOutlined,
 } from "@ant-design/icons";
-
-import dataProvider from "@refinedev/simple-rest";
+import {dataProvider} from "./provider/dataProvider"
 import routerProvider, {
     NavigateToResource,
     CatchAllNavigate,
@@ -28,13 +27,9 @@ import "@refinedev/antd/dist/reset.css";
 import { PostList, PostEdit, PostShow } from "../src/pages/posts";
 import { DashboardPage } from "../src/pages/dashboard";
 import AuthProviderConfig from "../src/provider/AuthProvider"
+import { ProjectList } from "./pages/project";
 
 const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3005/";
-
-const authCredentials = {
-    email: "hi@gillyhuga.com",
-    password: "AdminG!lly",
-};
 
 const App: React.FC = () => {
     return (
@@ -115,11 +110,6 @@ const App: React.FC = () => {
                                             registerLink={false}
                                             forgotPasswordLink={false}
                                             rememberMe={false}
-                                            formProps={{
-                                                initialValues: {
-                                                  ...authCredentials,
-                                                }, 
-                                              }}
                                         />
                                     }
                                 />
