@@ -1,8 +1,8 @@
-import { AuthProvider } from "@refinedev/core";
+import { AuthBindings } from "@refinedev/core";
 import { fetchAPI } from "../services/api";
 import Cookies from "js-cookie";
 
-const AuthProviderConfig: AuthProvider = {
+const AuthProviderConfig: AuthBindings = {
   login: async ({ email, password }: any) => {
     try {
       const apiResponse = await fetchAPI({
