@@ -26,8 +26,12 @@ import { DashboardPage } from "../src/pages/dashboard";
 import AuthProviderConfig from "../src/provider/AuthProvider"
 import { ProjectEdit, ProjectList, ProjectShow } from "./pages/project";
 import { ProjectCreate } from "./pages/project/create";
+import { TagList } from "./pages/tag/list";
+import { TagEdit } from "./pages/tag/edit";
+import { TagCreate } from "./pages/tag/create";
+import { resources } from "./config/resources";
 
-const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3005/";
+const API_URL = import.meta.env.VITE_ADMIN_API_URL || "http://localhost:3005/";
 
 const App: React.FC = () => {
     return (
@@ -38,23 +42,7 @@ const App: React.FC = () => {
                         authProvider={AuthProviderConfig}
                         dataProvider={dataProvider(API_URL)}
                         routerProvider={routerProvider}
-                        resources={[
-                            {
-                                name: "dashboard",
-                                list: "/",
-                                meta: {
-                                    label: "Dashboard",
-                                    icon: <DashboardOutlined />,
-                                },
-                            },
-                            {
-                                name: "project",
-                                list: "/project",
-                                show: "/project/show/:id",
-                                edit: "/project/edit/:id",
-                                create: "/project/create",
-                            },
-                        ]}
+                        resources={resources}
                         notificationProvider={notificationProvider}
                         options={{
                             syncWithLocation: true,
@@ -92,6 +80,22 @@ const App: React.FC = () => {
                                         element={<ProjectCreate />}
                                     />
                                 </Route>
+                                <Route
+                                    path="/enumeration"
+                                    element={<Outlet />}
+                                >
+                                    <Route path="tag">
+                                        <Route index element={<TagList />} />
+                                        <Route
+                                            path="edit/:id"
+                                            element={<TagEdit />}
+                                        />
+                                        <Route
+                                            path="create"
+                                            element={<TagCreate />}
+                                        />
+                                    </Route>
+                                </Route>
                             </Route>
                             <Route
                                 element={
@@ -99,7 +103,7 @@ const App: React.FC = () => {
                                         key="auth-pages"
                                         fallback={<Outlet />}
                                     >
-                                        <NavigateToResource resource="posts" />
+                                        <NavigateToResource resource="/" />
                                     </Authenticated>
                                 }
                             >
