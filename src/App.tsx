@@ -12,7 +12,7 @@ import {
 import {
     DashboardOutlined,
 } from "@ant-design/icons";
-import {dataProvider} from "./provider/dataProvider"
+import { dataProvider } from "./provider/dataProvider"
 import routerProvider, {
     NavigateToResource,
     CatchAllNavigate,
@@ -21,13 +21,11 @@ import routerProvider, {
 } from "@refinedev/react-router-v6";
 import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
 import { App as AntdApp, ConfigProvider } from "antd";
-
 import "@refinedev/antd/dist/reset.css";
-
-import { PostList, PostEdit, PostShow } from "../src/pages/posts";
 import { DashboardPage } from "../src/pages/dashboard";
 import AuthProviderConfig from "../src/provider/AuthProvider"
-import { ProjectList } from "./pages/project";
+import { ProjectEdit, ProjectList, ProjectShow } from "./pages/project";
+import { ProjectCreate } from "./pages/project/create";
 
 const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3005/";
 
@@ -50,10 +48,11 @@ const App: React.FC = () => {
                                 },
                             },
                             {
-                                name: "posts",
-                                list: "/posts",
-                                show: "/posts/show/:id",
-                                edit: "/posts/edit/:id",
+                                name: "project",
+                                list: "/project",
+                                show: "/project/show/:id",
+                                edit: "/project/edit/:id",
+                                create: "/project/create",
                             },
                         ]}
                         notificationProvider={notificationProvider}
@@ -78,20 +77,22 @@ const App: React.FC = () => {
                                 }
                             >
                                 <Route index element={<DashboardPage />} />
-
-                                <Route path="/posts">
-                                    <Route index element={<PostList />} />
+                                <Route path="/project">
+                                    <Route index element={<ProjectList />} />
                                     <Route
                                         path="edit/:id"
-                                        element={<PostEdit />}
+                                        element={<ProjectEdit />}
                                     />
                                     <Route
                                         path="show/:id"
-                                        element={<PostShow />}
+                                        element={<ProjectShow />}
+                                    />
+                                    <Route
+                                        path="create"
+                                        element={<ProjectCreate />}
                                     />
                                 </Route>
                             </Route>
-
                             <Route
                                 element={
                                     <Authenticated
@@ -114,7 +115,6 @@ const App: React.FC = () => {
                                     }
                                 />
                             </Route>
-
                             <Route
                                 element={
                                     <Authenticated key="catch-all">

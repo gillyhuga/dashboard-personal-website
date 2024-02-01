@@ -1,11 +1,15 @@
-export interface ICategory {
+export interface ITag {
     id: number;
-    title: string;
+    name: string;
 }
-export interface IPost {
+
+export interface IProject {
     id: number;
     title: string;
-    content: string;
-    status: "published" | "draft" | "rejected";
-    category: { id: number };
+    description: string;
+    image: string;
+    url: string;
+    tags:Array;
+    isPublished: string;
+    isSelected: string;
 }

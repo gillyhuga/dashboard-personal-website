@@ -6,13 +6,13 @@ const AuthProviderConfig: AuthProvider = {
   login: async ({ email, password }: any) => {
     try {
       const apiResponse = await fetchAPI({
-        url: `${import.meta.env.VITE_API_URL}get-token`,
+        url: `${import.meta.env.VITE_API_URL}/login`,
         method: "POST",
         body: { email, password },
       });
 
       if (apiResponse.success) {
-        const { token } = apiResponse.data.content;
+        const { token } = apiResponse.data.data;
         Cookies.set("auth_token", token, { expires: 7 });
         return { success: true, redirectTo: "/" };
       } else {
@@ -37,20 +37,20 @@ const AuthProviderConfig: AuthProvider = {
     return Cookies.get("auth_token")
       ? { authenticated: true }
       : {
-          authenticated: false,
-          error: { message: "Check failed", name: "Not authenticated" },
-          logout: true,
-          redirectTo: "/login",
-        };
+        authenticated: false,
+        error: { message: "Check failed", name: "Not authenticated" },
+        logout: true,
+        redirectTo: "/login",
+      };
   },
   getIdentity: async () => {
     try {
       const apiResponse = await fetchAPI({
-        url: `${import.meta.env.VITE_API_URL}profile`,
+        url: `${import.meta.env.VITE_API_URL}/profile`,
       });
 
       if (apiResponse.success) {
-        const { id, name, image } = apiResponse.data.content;
+        const { id, name, image } = apiResponse.data.data;
         return { success: true, id, name, avatar: image };
       } else {
         return {
