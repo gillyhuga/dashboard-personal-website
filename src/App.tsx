@@ -6,9 +6,10 @@ import {
     notificationProvider,
     ThemedLayoutV2,
     ErrorComponent,
-    AuthPage,
     RefineThemes,
+    ThemedTitleV2,
 } from "@refinedev/antd";
+import { AuthPage } from "./pages/auth";
 import {
     DashboardOutlined,
 } from "@ant-design/icons";
@@ -30,13 +31,21 @@ import { TagList } from "./pages/tag/list";
 import { TagEdit } from "./pages/tag/edit";
 import { TagCreate } from "./pages/tag/create";
 import { resources } from "./config/resources";
+import customTitleHandler from "./utility /customTitleHandler";
+import { AppIcon } from "./components/app-icon ";
+
 
 const API_URL = import.meta.env.VITE_ADMIN_API_URL || "http://localhost:3005/";
 
 const App: React.FC = () => {
     return (
         <BrowserRouter>
-            <ConfigProvider theme={RefineThemes.Blue}>
+            <ConfigProvider
+                theme={{
+                    token: {
+                        colorPrimary: "#1C538E",
+                    },
+                }}>
                 <AntdApp>
                     <Refine
                         authProvider={AuthProviderConfig}
@@ -58,7 +67,15 @@ const App: React.FC = () => {
                                             <CatchAllNavigate to="/login" />
                                         }
                                     >
-                                        <ThemedLayoutV2>
+                                        <ThemedLayoutV2
+                                            Title={({ collapsed }) => (
+                                                <ThemedTitleV2
+                                                    collapsed={collapsed}
+                                                    icon={<AppIcon />}
+                                                    text="Personal Website"
+                                                />
+                                            )}
+                                        >
                                             <Outlet />
                                         </ThemedLayoutV2>
                                     </Authenticated>
@@ -112,9 +129,7 @@ const App: React.FC = () => {
                                     element={
                                         <AuthPage
                                             type="login"
-                                            registerLink={false}
-                                            forgotPasswordLink={false}
-                                            rememberMe={false}
+
                                         />
                                     }
                                 />
@@ -132,7 +147,7 @@ const App: React.FC = () => {
                             </Route>
                         </Routes>
                         <UnsavedChangesNotifier />
-                        <DocumentTitleHandler />
+                        <DocumentTitleHandler handler={customTitleHandler} />
                     </Refine>
                 </AntdApp>
             </ConfigProvider>
