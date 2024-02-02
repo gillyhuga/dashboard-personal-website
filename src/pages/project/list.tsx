@@ -23,18 +23,19 @@ export const ProjectList: React.FC<IResourceComponentsProps> = () => {
                 createButtonProps={{ size: "middle" }}
             >
                 <Table {...tableProps} rowKey="id">
-                    <Table.Column dataIndex="title" title="Title" />
+                    <Table.Column dataIndex="title" title="Title" width={250} />
                     <Table.Column
                         dataIndex="url"
                         title="Url"
-                        fixed="right"
+                        width={250}
                         render={(value: string) => <UrlField value={value} />}
                     />
                     <Table.Column<IProject>
                         title="Image"
                         dataIndex="image"
+                        width={200}
                         render={(_, record) => (
-                            <ImageField value={record.image} title={record.title} width={200} />
+                            <ImageField value={record.image} title={record.title} height={100} width={200} />
                         )}
                     />
                     <Table.Column
@@ -47,7 +48,8 @@ export const ProjectList: React.FC<IResourceComponentsProps> = () => {
                         )}
                         defaultSortOrder= 'descend'
                         sorter= {(a:any, b:any) => a.isSelected - b.isSelected}
-                        width={100}
+                        width={175}
+                        align="center"
                     />
                     <Table.Column
                         dataIndex="isPublished"
@@ -58,10 +60,12 @@ export const ProjectList: React.FC<IResourceComponentsProps> = () => {
                             </Tag>
                         )}
                         width={100}
+                        align="center"
                     />
                     <Table.Column
                         dataIndex="createdAt"
                         title="Created At"
+                        width={100}
                         render={(value) => (
                             <DateField value={value} />
                         )}
@@ -69,6 +73,7 @@ export const ProjectList: React.FC<IResourceComponentsProps> = () => {
                     <Table.Column
                         dataIndex="updatedAt"
                         title="Updated At"
+                        width={100}
                         render={(value) => (
                             <DateField value={value} />
                         )}
@@ -78,6 +83,7 @@ export const ProjectList: React.FC<IResourceComponentsProps> = () => {
                         dataIndex="actions"
                         key="actions"
                         fixed='right'
+                        width={100}
                         render={(_, record) => (
                             <div style={{ display: 'flex', gap: '10px' }}>
                                 <ShowButton size="small" recordItemId={record.id} hideText={true} />

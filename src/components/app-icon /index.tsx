@@ -5,7 +5,7 @@ export const AppIcon: React.FC = () => {
         <img
         src="/logo.png"
         alt="Logo"
-        style={{ height: 23 }}  // Adjust the width and height using inline styles
+        style={{ height: 23 }} 
     />
     );
 };

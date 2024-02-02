@@ -3,11 +3,12 @@ import { IResourceComponentsProps } from "@refinedev/core";
 
 import { Edit, useForm, useSelect } from "@refinedev/antd";
 
-import { Form, Input, Select, Switch } from "antd";
+import { Flex, Form, Image, Input, Select, Switch } from "antd";
 
 import MDEditor from "@uiw/react-md-editor";
 
 import { IProject, ITag } from "../../interfaces";
+import ImageUpload from "../../components/ImageUpload";
 
 const { TextArea } = Input;
 
@@ -56,16 +57,14 @@ export const ProjectEdit: React.FC<IResourceComponentsProps> = () => {
                 >
                     <TextArea rows={4} />
                 </Form.Item>
-                <Form.Item
-                    label="Image"
-                    name="image"
-                    rules={[
-                        {
-                            required: true,
-                        },
-                    ]}
-                >
-                    <Input />
+                <Form.Item label="Image">
+                    <Flex gap="middle" vertical>
+                        <Image
+                            src={projectData?.image}
+                            width={150}
+                        />
+                        <ImageUpload />
+                    </Flex>
                 </Form.Item>
                 <Form.Item
                     label="Publish"

@@ -2,6 +2,7 @@ import { Create, useForm, useSelect } from "@refinedev/antd";
 import { Form, Input, Select, Switch } from "antd";
 import { IProject, ITag } from "../../interfaces";
 import TextArea from "antd/es/input/TextArea";
+import ImageUpload from "../../components/ImageUpload";
 
 export const ProjectCreate: React.FC = () => {
   const { formProps, saveButtonProps } = useForm<IProject>();
@@ -47,16 +48,8 @@ export const ProjectCreate: React.FC = () => {
         >
           <TextArea rows={4} />
         </Form.Item>
-        <Form.Item
-          label="Image"
-          name="image"
-          rules={[
-            {
-              required: true,
-            },
-          ]}
-        >
-          <Input />
+        <Form.Item label="Image">
+          <ImageUpload/>
         </Form.Item>
         <Form.Item
           label="Publish"

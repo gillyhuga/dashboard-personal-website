@@ -20,6 +20,7 @@ export const resources: IResourceItem[] = [
     {
         name: "project",
         list: "/project",
+        show: "/project/show/:id",
         create: "/project/create",
         edit: "/project/edit/:id",
         meta: {
