@@ -5,13 +5,11 @@ import {
     ImageField,
     DateField,
     UrlField,
-    ShowButton,
-    EditButton,
-    DeleteButton,
 } from "@refinedev/antd";
-import {Card, Table, Tag } from "antd";
+import { Card, Table, Tag } from "antd";
 import { HttpError } from "@refinedev/core";
 import { IProject } from "../../interfaces";
+import ActionsButton from "../../components/ActionButton";
 
 export const ProjectList: React.FC<IResourceComponentsProps> = () => {
     const { tableProps } = useTable<IProject, HttpError>();
@@ -46,8 +44,8 @@ export const ProjectList: React.FC<IResourceComponentsProps> = () => {
                                 {value ? "Selected" : "Unselected"}
                             </Tag>
                         )}
-                        defaultSortOrder= 'descend'
-                        sorter= {(a:any, b:any) => a.isSelected - b.isSelected}
+                        defaultSortOrder='descend'
+                        sorter={(a: any, b: any) => a.isSelected - b.isSelected}
                         width={175}
                         align="center"
                     />
@@ -84,13 +82,7 @@ export const ProjectList: React.FC<IResourceComponentsProps> = () => {
                         key="actions"
                         fixed='right'
                         width={100}
-                        render={(_, record) => (
-                            <div style={{ display: 'flex', gap: '10px' }}>
-                                <ShowButton size="small" recordItemId={record.id} hideText={true} />
-                                <EditButton size="small" recordItemId={record.id} hideText={true} />
-                                <DeleteButton size="small" recordItemId={record.id} hideText={true} />
-                            </div>
-                        )}
+                        render={(_, record) => <ActionsButton record={record} />}
                     />
                 </Table>
             </List>

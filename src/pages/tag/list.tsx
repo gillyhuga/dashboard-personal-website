@@ -2,16 +2,11 @@ import { IResourceComponentsProps } from "@refinedev/core";
 import {
     List,
     useTable,
-    ImageField,
-    DateField,
-    UrlField,
-    ShowButton,
-    EditButton,
-    DeleteButton,
 } from "@refinedev/antd";
-import { Card, Table, Tag } from "antd";
+import { Card, Table } from "antd";
 import { HttpError } from "@refinedev/core";
 import { ITag } from "../../interfaces";
+import ActionsButton from "../../components/ActionButton";
 
 export const TagList: React.FC<IResourceComponentsProps> = () => {
     const { tableProps } = useTable<ITag, HttpError>();
@@ -31,16 +26,10 @@ export const TagList: React.FC<IResourceComponentsProps> = () => {
                         key="actions"
                         fixed='right'
                         width={100}
-                        render={(_, record) => (
-                            <div style={{ display: 'flex', gap: '10px' }}>
-                                <EditButton size="small" recordItemId={record.id} hideText={true} />
-                                <DeleteButton size="small" recordItemId={record.id} hideText={true} />
-                            </div>
-                        )}
+                        render={(_, record) => <ActionsButton record={record} showButton={false} />}
                     />
                 </Table>
             </List>
         </Card>
-
     );
 };
