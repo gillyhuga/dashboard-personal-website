@@ -21,7 +21,7 @@ export const fetchAPI = async ({ url, method = "GET", headers = {}, body = null 
     if (response.ok) {
       return { success: true, data };
     } else {
-      return { success: false, error: data.error || "Unknown error" };
+      return { success: false, error: data.resultDesc || "Unknown error" };
     }
   } catch (error) {
     console.error("API request failed:", error);
